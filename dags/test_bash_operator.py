@@ -18,7 +18,7 @@ with DAG(
     
     run_script = BashOperator(
         task_id='execute_test_sh',
-        bash_command='/home/airflow/airflow_python_activate.sh',
+        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && python /home/airflow/airflow-project/AIRecruiter/test_sh.py',
     )
 
     run_script
