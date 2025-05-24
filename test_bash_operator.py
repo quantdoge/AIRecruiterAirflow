@@ -12,7 +12,7 @@ default_args = {
 with DAG(
     dag_id='test_bash_operator',
     default_args=default_args,
-    schedule_interval='* * * * *',  # Runs every minute
+    schedule_interval='0 */12 * * *',  # Runs every minute
     tags=['bash', 'airflow']
 ) as dag:
     
