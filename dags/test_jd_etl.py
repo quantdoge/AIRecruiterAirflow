@@ -14,7 +14,7 @@ with DAG(
     dag_id='test_jd_etl',
     default_args=default_args,
     schedule_interval='0 */6 * * *',  # Every 6 hours
-    tags=['AIRecruiter', 'ETL', '2_uat_continuous','3_uat_webingest_first','4_uat_index_summ'],
+    tags=['AIRecruiter', 'ETL', '2_uat_continuous','3_uat_webingest_first','4_uat_index_summ', '5_uat_upsert_md'],
 ) as dag:
 
     task1 = BashOperator(
@@ -34,4 +34,10 @@ with DAG(
         trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task2's result
     )
 
-    task1 >> task2 >> task3
+    task4 = BashOperator(
+        task_id='5_uat_upsert_md',
+        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 5_uat_upsert_md.py',
+        trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task2's result
+    )
+
+    task1 >> task2 >> task3 >> task4
