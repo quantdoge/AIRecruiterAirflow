@@ -13,7 +13,7 @@ default_args = {
 with DAG(
     dag_id='test_jd_etl',
     default_args=default_args,
-    schedule_interval='0 */6 * * *',  # Every 6 hours
+    schedule_interval='0 */2 * * *',  # Every 2 hour
     tags=['AIRecruiter', 'ETL', '2_uat_continuous','3_uat_webingest_first','4_uat_index_summ', '5_uat_upsert_md'],
 ) as dag:
 
