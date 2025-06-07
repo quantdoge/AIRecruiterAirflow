@@ -13,13 +13,13 @@ default_args = {
 with DAG(
     dag_id='test_jd_extract',
     default_args=default_args,
-    schedule_interval='*/15 * * * *',  # Every 15 minutes
-    tags=['AIRecruiter', 'ETL', '2_uat_continuous'],
+    schedule_interval='0 */1 * * *',  # Every 1 hour 
+    tags=['AIRecruiter', 'ETL', '2_uat_continuous_all'],
 ) as dag:
 
     task1 = BashOperator(
-        task_id='2_uat_continuous',
-        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 2_uat_continuous.py',  # Example: fails
+        task_id='2_uat_continuous_all',
+        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 2_uat_continuous_all.py',  # Example: fails
     )
 
     task1
