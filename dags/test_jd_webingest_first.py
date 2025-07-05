@@ -21,16 +21,17 @@ def success_email_function(context):
 
 
 with DAG(
-    dag_id='test_jd_extract',
+    dag_id='test_jd_webingest_first',
     default_args=default_args,
-    schedule_interval='0 */1 * * *',  # Every 1 hour
-    tags=['AIRecruiter', 'ETL', '2_uat_continuous_all'],
-    on_success_callback=success_email_function,
+    schedule_interval='0 */6 * * *',  # Every 6 hour
+    tags=['AIRecruiter', 'ETL', '3_uat_webingest_first'],
 ) as dag:
 
-    task1 = BashOperator(
-        task_id='2_uat_continuous_all',
-        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 2_uat_continuous_all.py',  # Example: fails
+    task2 = BashOperator(
+        task_id='3_uat_webingest_first',
+        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 3_uat_webingest_first.py',  # Example: succeeds
+        #execution_timeout=timedelta(seconds=7200),  # Times out after 20 minutes
+        #trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task1's result
     )
 
-    task1
+    task2
