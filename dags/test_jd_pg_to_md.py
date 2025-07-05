@@ -21,18 +21,18 @@ def success_email_function(context):
 
 
 with DAG(
-    dag_id='test_jd_update_md',
+    dag_id='test_jd_pg_to_md',
     default_args=default_args,
-    schedule_interval='0 */6 * * *',  # Every 6 hour
-    tags=['AIRecruiter', 'ETL', '5_uat_upsert_md'],
+    schedule_interval='0 5 * * *',  # Every day at 5AM
+    tags=['AIRecruiter', 'ETL', '6_pg_to_md'],
     on_success_callback=success_email_function,
 ) as dag:
 
-	task4 = BashOperator(
-        task_id='5_uat_upsert_md',
-        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 5_uat_upsert_md.py',
-        #execution_timeout=timedelta(seconds=1200),  # Times out after 20 minutes
+    task5 = BashOperator(
+        task_id='6_pg_to_md',
+        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 6_pg_to_md.py',
+        #execution_timeout=timedelta(seconds=3600),  # Times out after 20 minutes
         #trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task2's result
     )
 
-	task4
+    task5

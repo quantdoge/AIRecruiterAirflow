@@ -25,6 +25,7 @@ with DAG(
     default_args=default_args,
     schedule_interval='0 */6 * * *',  # Every 6 hour
     tags=['AIRecruiter', 'ETL', '4_uat_index_summ'],
+    on_success_callback=success_email_function,
 ) as dag:
 
     task3 = BashOperator(
