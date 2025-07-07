@@ -9,7 +9,7 @@ default_args = {
     'depends_on_past': False,
     'start_date': datetime(2025, 7, 6),
     'catchup': False,
-    'email': ["limjs4spotify@gmail.com"],
+    'email': ["ce9d919@protonmail.com"],
     'email_on_failure': True
 }
 
@@ -17,7 +17,7 @@ def success_email_function(context):
     dag_run = context.get("dag_run")
     subject = f"DAG {dag_run.dag_id} Succeeded"
     msg = f"The DAG {dag_run.dag_id} has completed successfully."
-    send_email(to=["limjs4spotify@gmail.com"], subject=subject, html_content=msg)
+    send_email(to=["ce9d919@protonmail.com"], subject=subject, html_content=msg)
 
 with DAG(
     dag_id='test_jd_etl',

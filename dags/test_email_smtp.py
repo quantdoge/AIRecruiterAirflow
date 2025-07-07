@@ -11,7 +11,7 @@ with DAG(
 
     send_test_email = EmailOperator(
         task_id="send_test_email",
-        to="limjs4spotify@gmail.com",  # Replace with your email
+        to="ce9d919@protonmail.com",  # Replace with your email
         subject="Airflow SMTP Test",
         html_content="<h3>This is a test email from Airflow SMTP configuration.</h3>",
     )
