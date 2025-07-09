@@ -30,21 +30,21 @@ with DAG(
     task2 = BashOperator(
         task_id='3_uat_webingest_first',
         bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 3_uat_webingest_first.py',  # Example: succeeds
-        execution_timeout=timedelta(seconds=7200),  # Times out after 20 minutes
+        execution_timeout=timedelta(seconds=7200),  # Times out after 2 hours
         trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task1's result
     )
 
     task3 = BashOperator(
         task_id='4_uat_index_summ',
         bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 4_uat_index_summ.py',
-        execution_timeout=timedelta(seconds=3600),  # Times out after 20 minutes
+        execution_timeout=timedelta(seconds=9800),  # Times out after 3 hours
         trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task2's result
     )
 
     task4 = BashOperator(
         task_id='5_uat_upsert_md',
         bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 5_uat_upsert_md.py',
-        execution_timeout=timedelta(seconds=1200),  # Times out after 20 minutes
+        execution_timeout=timedelta(seconds=3600),  # Times out after 1 hour
         trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task2's result
     )
 
