@@ -24,7 +24,7 @@ with DAG(
     default_args=default_args,
     schedule_interval='0 */6 * * *',  # Every 6 hour
     on_success_callback=success_email_function,
-    tags=['AIRecruiter', 'ETL', '3_uat_webingest_first','4_uat_index_summ', '5_uat_upsert_md'],
+    tags=['AIRecruiter', 'ETL', '3_uat_webingest_first','4_uat_index_summ', '5_uat_upsert_md', '6_pg_to_md'],
 ) as dag:
 
     task2 = BashOperator(
@@ -37,7 +37,7 @@ with DAG(
     task3 = BashOperator(
         task_id='4_uat_index_summ',
         bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 4_uat_index_summ.py',
-        execution_timeout=timedelta(seconds=9800),  # Times out after 3 hours
+        execution_timeout=timedelta(seconds=10800),  # Times out after 3 hours
         trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task2's result
     )
 
@@ -45,7 +45,15 @@ with DAG(
         task_id='5_uat_upsert_md',
         bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 5_uat_upsert_md.py',
         execution_timeout=timedelta(seconds=3600),  # Times out after 1 hour
-        trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task2's result
+        trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task3's result
     )
 
-    task2>> task3>> task4
+    task5 = BashOperator(
+        task_id='6_pg_to_md',
+        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 6_pg_to_md.py',  # Example: succeeds
+        execution_timeout=timedelta(seconds=1200),  # Times out after 20 minutes
+        trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task4's result
+    )
+
+
+    task2>> task3>> task4 >> task5

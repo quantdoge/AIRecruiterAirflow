@@ -17,19 +17,19 @@ def success_email_function(context):
     dag_run = context.get("dag_run")
     subject = f"DAG {dag_run.dag_id} Succeeded"
     msg = f"The DAG {dag_run.dag_id} has completed successfully."
-    send_email(to=["ce9d919@protonmail.com"], subject=subject, html_content=msg)
+    send_email(to=["ce9d919@protonmail.com.com"], subject=subject, html_content=msg)
 
 
 with DAG(
-    dag_id='test_jd_webingest_first',
+    dag_id='test_pg_to_md',
     default_args=default_args,
     schedule_interval='0 */6 * * *',  # Every 6 hour
-    tags=['AIRecruiter', 'ETL', '3_uat_webingest_first'],
+    tags=['AIRecruiter', 'ETL', '6_pg_to_md'],
 ) as dag:
 
     task2 = BashOperator(
-        task_id='3_uat_webingest_first',
-        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 3_uat_webingest_first.py',  # Example: succeeds
+        task_id='6_pg_to_md',
+        bash_command='source /home/airflow/airflow-project/airflow-env/bin/activate && cd /home/airflow/airflow-project/AIRecruiter/ETL/Debug && python 6_pg_to_md.py',  # Example: succeeds
         #execution_timeout=timedelta(seconds=7200),  # Times out after 20 minutes
         #trigger_rule=TriggerRule.ALL_DONE,     # Run regardless of task1's result
     )
